@@ -22,7 +22,8 @@ class StateFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'likes' => $this->faker->numberBetween(1,20),
+            'views' => $this->faker->numberBetween(21, 100),
         ];
     }
 }
