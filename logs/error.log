@@ -1,0 +1,1 @@
+2021/08/10 10:44:36 [error] 1519#1519: *22 upstream timed out (110: Connection timed out) while reading response header from upstream, client: 127.0.0.1, server: laravel-app, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/var/run/php/php8.0-fpm.sock", host: "laravel-app"
