@@ -21,6 +21,8 @@ class Article extends Model
         'slug',
     ];
 
+    public $dates = ['published_at'];
+
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
@@ -43,7 +45,8 @@ class Article extends Model
 
     public function createdAtForHumans()
     {
-        return $this->created_at->diffForHumans();
+//        return $this->created_at->diffForHumans();
+        return $this->published_at->diffForHumans();
     }
 
     public function scopeLastLimit($query, $numbers)
