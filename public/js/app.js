@@ -1873,6 +1873,12 @@ __webpack_require__.r(__webpack_exports__);
     },
     tagsLen: function tagsLen() {
       return this.$store.state.article.tags.length;
+    },
+    views: function views() {
+      return this.$store.getters.articleViews;
+    },
+    likes: function likes() {
+      return this.$store.getters.articleLikes;
     }
   },
   mounted: function mounted() {
@@ -1901,7 +1907,10 @@ var app = new Vue({
   store: _store_store_js__WEBPACK_IMPORTED_MODULE_0__.default,
   el: '#app',
   created: function created() {
-    this.$store.dispatch('getArticleData');
+    var url = window.location.pathname;
+    var slug = url.substring(url.lastIndexOf('/') + 1);
+    this.$store.commit('SET_SLUG', slug);
+    this.$store.dispatch('getArticleData', slug);
   }
 });
 
@@ -1968,21 +1977,45 @@ __webpack_require__.r(__webpack_exports__);
 vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vuex__WEBPACK_IMPORTED_MODULE_1__.default);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new vuex__WEBPACK_IMPORTED_MODULE_1__.default.Store({
   state: {
-    article: {}
+    article: {
+      comments: [],
+      tags: [],
+      statistic: {
+        likes: 0,
+        views: 0
+      }
+    },
+    slug: ''
   },
   actions: {
     getArticleData: function getArticleData(context, payload) {
-      axios.get('/api/article-json').then(function (response) {
+      console.log('context:', context);
+      console.log('payload:', payload);
+      axios.get('/api/article-json', {
+        params: {
+          slug: payload
+        }
+      }).then(function (response) {
         context.commit('SET_ARTICLE', response.data.data);
       })["catch"](function () {
         console.log('Error');
       });
     }
   },
-  getters: {},
+  getters: {
+    articleViews: function articleViews(state) {
+      return state.article.statistic.views;
+    },
+    articleLikes: function articleLikes(state) {
+      return state.article.statistic.likes;
+    }
+  },
   mutations: {
     SET_ARTICLE: function SET_ARTICLE(state, payload) {
       return state.article = payload;
+    },
+    SET_SLUG: function SET_SLUG(state, payload) {
+      return state.slug = payload;
     }
   }
 }));
@@ -19526,12 +19559,12 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "mt-3" }, [
         _c("span", { staticClass: "badge bg-danger" }, [
-          _vm._v(_vm._s(_vm.article.statstic.views) + " "),
+          _vm._v(_vm._s(_vm.views) + " "),
           _c("i", { staticClass: "far fa-eye" })
         ]),
         _vm._v(" "),
         _c("span", { staticClass: "badge bg-primary" }, [
-          _vm._v(_vm._s(_vm.article.statstic.likes) + " "),
+          _vm._v(_vm._s(_vm.likes) + " "),
           _c("i", { staticClass: "far fa-thumbs-up" })
         ])
       ])

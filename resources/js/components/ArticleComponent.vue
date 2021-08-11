@@ -12,8 +12,8 @@
             <p class="card-text">{{ article.body }}</p>
             <p>Опубликованно:  <i>{{ article.created_at }}</i></p>
             <div class="mt-3">
-                <span class="badge bg-danger">{{ article.statstic.views }} <i class="far fa-eye"></i></span>
-                <span class="badge bg-primary">{{ article.statstic.likes }} <i class="far fa-thumbs-up"></i></span>
+                <span class="badge bg-danger">{{ views }} <i class="far fa-eye"></i></span>
+                <span class="badge bg-primary">{{ likes }} <i class="far fa-thumbs-up"></i></span>
             </div>
         </div>
     </div>
@@ -27,6 +27,12 @@ export default {
         },
         tagsLen() {
             return this.$store.state.article.tags.length;
+        },
+        views() {
+            return this.$store.getters.articleViews;
+        },
+        likes() {
+            return this.$store.getters.articleLikes;
         }
     },
     mounted() {
