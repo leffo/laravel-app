@@ -18,4 +18,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('article-json', [\App\Http\Controllers\ArticleController::class, 'show']);
+Route::get('article-json', [\App\Http\Controllers\Api\ArticleController::class, 'show']);

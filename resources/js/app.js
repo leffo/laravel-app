@@ -7,5 +7,9 @@ import store from './store/store.js'
 Vue.component('article-component', require('./components/ArticleComponent.vue').default);
 
 const app = new Vue({
+    store,
     el: '#app',
+    created() {
+      this.$store.dispatch('getArticleData');
+    },
 });

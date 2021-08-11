@@ -1851,8 +1851,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "ArticleComponent"
+  computed: {
+    article: function article() {
+      return this.$store.state.article;
+    },
+    tagsLen: function tagsLen() {
+      return this.$store.state.article.tags.length;
+    }
+  },
+  mounted: function mounted() {
+    console.log('Component article mounted.');
+  }
 });
 
 /***/ }),
@@ -1873,7 +1898,11 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js"
 
 Vue.component('article-component', __webpack_require__(/*! ./components/ArticleComponent.vue */ "./resources/js/components/ArticleComponent.vue").default);
 var app = new Vue({
-  el: '#app'
+  store: _store_store_js__WEBPACK_IMPORTED_MODULE_0__.default,
+  el: '#app',
+  created: function created() {
+    this.$store.dispatch('getArticleData');
+  }
 });
 
 /***/ }),
@@ -1938,10 +1967,24 @@ __webpack_require__.r(__webpack_exports__);
 
 vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vuex__WEBPACK_IMPORTED_MODULE_1__.default);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new vuex__WEBPACK_IMPORTED_MODULE_1__.default.Store({
-  state: {},
-  actions: {},
+  state: {
+    article: {}
+  },
+  actions: {
+    getArticleData: function getArticleData(context, payload) {
+      axios.get('/api/article-json').then(function (response) {
+        context.commit('SET_ARTICLE', response.data.data);
+      })["catch"](function () {
+        console.log('Error');
+      });
+    }
+  },
   getters: {},
-  mutations: {}
+  mutations: {
+    SET_ARTICLE: function SET_ARTICLE(state, payload) {
+      return state.article = payload;
+    }
+  }
 }));
 
 /***/ }),
@@ -19453,18 +19496,49 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
-      _c("h1", [_vm._v("Test!")])
+  return _c("div", { staticClass: "row mt-5" }, [
+    _c("div", { staticClass: "col-12 p-3" }, [
+      _c("img", {
+        staticClass: "border rounded mx-auto d-block",
+        attrs: { src: _vm.article.img, alt: "..." }
+      }),
+      _vm._v(" "),
+      _c("h5", { staticClass: "mt-5" }, [_vm._v(_vm._s(_vm.article.title))]),
+      _vm._v(" "),
+      _c(
+        "p",
+        _vm._l(_vm.article.tags, function(tag, index) {
+          return _c("span", { staticClass: "tag" }, [
+            _vm.tagsLen == index + 1
+              ? _c("span", [_vm._v(_vm._s(tag.label))])
+              : _c("span", [_vm._v(_vm._s(tag.label) + " | ")])
+          ])
+        }),
+        0
+      ),
+      _vm._v(" "),
+      _c("p", { staticClass: "card-text" }, [_vm._v(_vm._s(_vm.article.body))]),
+      _vm._v(" "),
+      _c("p", [
+        _vm._v("Опубликованно:  "),
+        _c("i", [_vm._v(_vm._s(_vm.article.created_at))])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "mt-3" }, [
+        _c("span", { staticClass: "badge bg-danger" }, [
+          _vm._v(_vm._s(_vm.article.statstic.views) + " "),
+          _c("i", { staticClass: "far fa-eye" })
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "badge bg-primary" }, [
+          _vm._v(_vm._s(_vm.article.statstic.likes) + " "),
+          _c("i", { staticClass: "far fa-thumbs-up" })
+        ])
+      ])
     ])
-  }
-]
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
