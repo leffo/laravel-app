@@ -51,7 +51,7 @@ export default {
             return this.$store.state.commentSuccess;
         },
         errorsMessage(){
-            return this.$store.state.article.errors;
+            return this.$store.state.errors;
         },
     },
     methods: {

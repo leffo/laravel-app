@@ -1921,6 +1921,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -1934,10 +1940,10 @@ __webpack_require__.r(__webpack_exports__);
     },
     commentSuccess: function commentSuccess() {
       return this.$store.state.commentSuccess;
-    } // errorsMessage(){
-    //     return this.$store.state.article.errors;
-    // }
-
+    },
+    errorsMessage: function errorsMessage() {
+      return this.$store.state.errors;
+    }
   },
   methods: {
     submit_form: function submit_form() {
@@ -1949,7 +1955,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    console.log('Component mounted.');
+    console.log('CommentComponent mounted.');
   }
 });
 
@@ -2125,7 +2131,8 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vuex__WEBPACK_IMPORTED_MODULE_1__.d
     },
     slug: '',
     likeIt: true,
-    commentSuccess: false
+    commentSuccess: false,
+    errors: []
   },
   actions: {
     getArticleData: function getArticleData(context, payload) {
@@ -2172,9 +2179,10 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vuex__WEBPACK_IMPORTED_MODULE_1__.d
       }).then(function (response) {
         context.commit('SET_COMMENT_SUCCESS', !context.state.commentSuccess);
         context.dispatch('getArticleData', context.rootState.slug);
-      })["catch"](function (error) {// if(error.response.status === 422) {
-        //     context.state.errors = error.response.data.errors
-        // }
+      })["catch"](function (error) {
+        if (error.response.status === 422) {
+          context.state.errors = error.response.data.errors;
+        }
       });
     }
   },
@@ -20457,7 +20465,24 @@ var render = function() {
                       _vm.subject = $event.target.value
                     }
                   }
-                })
+                }),
+                _vm._v(" "),
+                _vm.errorsMessage.subject
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "alert alert-warning",
+                        attrs: { role: "alert" }
+                      },
+                      [
+                        _vm._v(
+                          "\n                " +
+                            _vm._s(_vm.errorsMessage.subject[0]) +
+                            "\n            "
+                        )
+                      ]
+                    )
+                  : _vm._e()
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "mb-3" }, [
@@ -20487,7 +20512,24 @@ var render = function() {
                       _vm.body = $event.target.value
                     }
                   }
-                })
+                }),
+                _vm._v(" "),
+                _vm.errorsMessage.body
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "alert alert-warning",
+                        attrs: { role: "alert" }
+                      },
+                      [
+                        _vm._v(
+                          "\n                " +
+                            _vm._s(_vm.errorsMessage.body[0]) +
+                            "\n            "
+                        )
+                      ]
+                    )
+                  : _vm._e()
               ]),
               _vm._v(" "),
               _c(
