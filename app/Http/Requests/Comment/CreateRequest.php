@@ -29,4 +29,14 @@ class CreateRequest extends FormRequest
             'article_id' => 'required',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'subject.required' => 'Это поле надо обязательно заполнить',
+            'subject.min' => 'Это поле должно быть длиннее 6 символов',
+            'body.required' => 'Это поле надо обязательно заполнить',
+            'body.min' => 'Это поле должно быть длиннее 10 символов',
+        ];
+    }
 }
