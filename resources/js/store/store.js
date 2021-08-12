@@ -15,6 +15,7 @@ export default new Vuex.Store( {
         },
         slug: '',
         likeIt: true,
+        commentSuccess: false,
     },
 
     actions: {
@@ -49,6 +50,25 @@ export default new Vuex.Store( {
                 });
             console.log("После клика по кнопке", context.state.likeIt);
         },
+        addComment(context, payload){
+            axios.post(
+                '/api/article-add-comment',
+                {
+                    subject: payload.subject,
+                    body: payload.body,
+                    article_id: payload.article_id
+                })
+                .then((response) => {
+                    context.commit('SET_COMMENT_SUCCESS', !context.state.commentSuccess);
+                    context.dispatch('getArticleData', context.rootState.slug)
+                })
+                .catch((error)=>{
+                    // if(error.response.status === 422) {
+                    //     context.state.errors = error.response.data.errors
+                    // }
+            });
+        },
+
     },
 
     getters: {
@@ -69,6 +89,9 @@ export default new Vuex.Store( {
         },
         SET_LIKE(state, payload) {
             return state.likeIt = payload;
+        },
+        SET_COMMENT_SUCCESS(state, payload) {
+            return state.commentSuccess = payload;
         },
     },
 })
