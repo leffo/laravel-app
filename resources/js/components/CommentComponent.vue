@@ -4,10 +4,16 @@
             <div class="mb-3">
                 <label for="commentSubject" class="form-label">Тема комментария</label>
                 <input type="text" class="form-control" id="commentSubject" v-model="subject">
+                <div class="alert alert-warning" role="alert" v-if="errorsMessage.subject">
+                    {{ errorsMessage.subject[0] }}
+                </div>
             </div>
             <div class="mb-3">
                 <label for="commentBody" class="form-label">Комментарий</label>
                 <textarea class="form-control" id="commentBody" rows="3" v-model="body"></textarea>
+                <div class="alert alert-warning" role="alert" v-if="errorsMessage.body">
+                    {{ errorsMessage.body[0] }}
+                </div>
             </div>
             <button class="btn btn-success" type="submit">Отправить</button>
         </form>
@@ -18,11 +24,11 @@
             <div class="toast showing" style="min-width: 100%;">
                 <div class="toast-header">
                     <img src="https://via.placeholder.com/50/5F113B/FFFFFF/?text=User" class="rounded me-2" alt="...">
-                    <strong class="me-auto">{{comment.subject}}</strong>
-                    <small class="text-muted">{{comment.created_at}}</small>
+                    <strong class="me-auto">{{ comment.subject }}</strong>
+                    <small class="text-muted">{{ comment.created_at }}</small>
                 </div>
                 <div class="toast-body">
-                    {{comment.body}}
+                    {{ comment.body }}
                 </div>
             </div>
         </div>
@@ -44,9 +50,9 @@ export default {
         commentSuccess() {
             return this.$store.state.commentSuccess;
         },
-        // errorsMessage(){
-        //     return this.$store.state.article.errors;
-        // }
+        errorsMessage(){
+            return this.$store.state.article.errors;
+        },
     },
     methods: {
         submit_form(){
@@ -58,7 +64,7 @@ export default {
         }
     },
     mounted() {
-        console.log('Component mounted.')
+        console.log('CommentComponent mounted.')
     }
 }
 </script>

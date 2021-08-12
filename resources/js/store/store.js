@@ -16,6 +16,7 @@ export default new Vuex.Store( {
         slug: '',
         likeIt: true,
         commentSuccess: false,
+        errors: [],
     },
 
     actions: {
@@ -63,9 +64,9 @@ export default new Vuex.Store( {
                     context.dispatch('getArticleData', context.rootState.slug)
                 })
                 .catch((error)=>{
-                    // if(error.response.status === 422) {
-                    //     context.state.errors = error.response.data.errors
-                    // }
+                    if(error.response.status === 422) {
+                        context.state.errors = error.response.data.errors
+                    }
             });
         },
 
